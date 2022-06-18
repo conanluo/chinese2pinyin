@@ -1,7 +1,5 @@
-import { zh2pinyin, words2Pinyins } from "./pinyinConvert.js";
+import {  words2Pinyins } from "./pinyinConvert.js";
 import fs from "fs"
-
-//import {traditional2Simplified} from "./zhConvert.js"
 
 
 
@@ -23,7 +21,6 @@ let newPath=path
             //fs.copyFileSync(path+"/"+element,newPath+"/"+music)
             console.log(music)
         });
-        
         
     })
 

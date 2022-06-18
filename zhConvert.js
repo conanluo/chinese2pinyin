@@ -4,16 +4,25 @@ let dictionarys = [
 ]
 
 
-
+/**
+ * @param {string} word 输入文字
+ * @return {string} 返回翻译后的文字
+ */
 function simplified2Traditional(word){
     return zhConvert(word,true)
 }
+/**
+ * @param {string} word 输入文字
+ * @return {string} 返回翻译后的文字
+ */
 function traditional2Simplified(word){
     return zhConvert(word)
 }
 
 /**
- * isS2T 布尔值 是否简体转换繁体
+ * @param {string} word 输入文字
+ * @param {boolean} isS2T 是否简体转换繁体
+ * @return {string} 返回翻译后的文字
  */
 
 function zhConvert(word,isS2T){

@@ -1,6 +1,6 @@
 import {traditional2Simplified} from "./zhConvert.js"
 
-var str=`
+var dict=
 {
     "a": "\u554a\u963f\u9515",
     "ai": "\u57c3\u6328\u54ce\u5509\u54c0\u7691\u764c\u853c\u77ee\u827e\u788d\u7231\u9698\u8bf6\u6371\u55f3\u55cc\u5ad2\u7477\u66a7\u7839\u953f\u972d",
@@ -403,9 +403,9 @@ var str=`
     "nou": "\u8028",
     "fou": "\u7f36",
     "bia": "\u9adf"
-}`
+}
 
-let obj=eval(`(${str})`)
+
 String.prototype.firstUpperCase = function(){
     return this.replace(/\b(\w)(\w*)/g, function($0, $1, $2) {
         return $1.toUpperCase() + $2.toLowerCase();
@@ -413,43 +413,38 @@ String.prototype.firstUpperCase = function(){
 }
 
 /**
- * 默认全部小写  
- * 
+ * @param {string} zh : 输入的文字,
+ * @param {boolean} isCapitalFirstLetter : 是否首字母大写,默认全部小写  
+ * @return {string} 返回转义后的拼音
  */
-export function zh2pinyin(zh,isCapitalFirstLetter){
-
-
-    let py="";
-
+function zh2pinyin(zh,isCapitalFirstLetter){
+    let py=zh;
     let zh2=traditional2Simplified(zh, true)//将繁体字转换简体字
-    for(let val in obj){
-        if(obj[val].indexOf(zh2)!=-1){
-         
+    for(let val in dict){ //查找文字进行遍历,查找对应的拼音
+        if(dict[val].indexOf(zh2)!=-1){         
             py=isCapitalFirstLetter? val.firstUpperCase(): val;
-        
-         
          break
         }
      }
-    return py==""?zh:py;
+    return py;
 };
 
 /**
- * 把句子转换成拼音
- * 默认每个拼音之间有空格
- * 如果没有空格,会以驼峰命名法
-*/
-export function words2Pinyins(words,isNoSpace){
+ * @param {string} words 一串需要转换的文字
+ * @param {boolean} isNoSpace 是否有空格, 默认每个拼音之间都有空格,如果没有空格则会用驼峰命名法
+ * @returns {string} 返回转移后的拼音
+ */
+function words2Pinyins(words,isNoSpace){
     let space=isNoSpace?"":" ";
 
     let pinyins="";
-    //console.log(words.length)
     let wordsArr=words.split("")
-    wordsArr.forEach(word=>{
-    //    console.log(word)
-        let sp=space
-        if(/^[0-9a-zA-Z\s+\.\`\']/.test(word)) sp=""
-        pinyins+=zh2pinyin(word,isNoSpace)+sp
+    wordsArr.forEach(word=>{//遍历每个字,进行转义拼凑.
+        let sp=space //每个字后面空格
+        if(/^[0-9a-zA-Z\s+\.\`\']/.test(word)) sp="" //是否是英文数字,或者" . " ,是的话不需要空格.
+        pinyins+=zh2pinyin(word,isNoSpace)+sp 
     })
     return pinyins
 }
+
+export {words2Pinyins,zh2pinyin}
