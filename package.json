@@ -1,0 +1,12 @@
+{
+  "name": "pinyin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node .\test.js"
+  },
+  "author": "Conan",
+  "license": "ISC"
+}
