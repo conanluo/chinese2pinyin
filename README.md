@@ -177,7 +177,7 @@ fs.mkdir(newPath,()=>{
 
 于是我爬网找一些有没相关的api,我在[npm.io](https://npm.io) 上找到2个模块.于是开整.
 
-其中一个是node-id3
+其中一个是[node-id3](https://npm.io/package/node-id3)
 另一个是jsmediatags
 
 最后我选择的是node-id3
@@ -207,10 +207,12 @@ fs.mkdir(newPath,()=>{
             let music=words2Pinyins(element,true)
             fs.copyFileSync(path+"/"+element,newPath+"/"+music)
             console.log(music.replace(".mp3","").replace(".MP3",""))
-            let tags={//修改的信息,我这里写死了,因为我不想多余信息影响界面.根据自己需要修改.                title:music.replace(".mp3","").replace(".MP3",""),
+            let tags={//修改的信息,我这里写死了,因为我不想多余信息影响界面.根据自己需要修改.                
+	    	title:music.replace(".mp3","").replace(".MP3",""),
                 artist:"Eason Chan",
                 album:"1"
-            }            console.log(ID3.write(tags,newPath+"\\"+music))
+            }
+	    console.log(ID3.write(tags,newPath+"\\"+music))
         });
     })
 
