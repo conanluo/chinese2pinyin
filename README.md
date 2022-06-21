@@ -223,5 +223,55 @@ fs.mkdir(newPath,()=>{
 搞掂,就看看能不能显示了.,所有东西都准备好,下一章就开始制作桌面应用,
 
 
+### 修改图片
+修改tags信息其中一个作为娱乐项目就是修改图片,我就把自己的歌全改了自己的头像. 当然还是用node-id3 修改tags信息
 
+node-id3里面tags对象用`image` 跟`raw`的APIC保存图片信息.
+```
+tags={
+	...
+	image:{
+		...
+		"imageBuffer":"<Buffer 08 95...>",
+		...
+	},
+	...
+	raw:{
+		...
+		APIC:{
+			...
+			"imageBuffer":"<Buffer 08 95...>",
+			...
+		}
+	}
+	...
+}
+```
+所以我们只需要将我们需要的图片用二进制形式读取后,写到这两个位置就可以了.
+
+```
+import ID3 from "node-id3"
+
+//读取我们需要的图片
+fs.readFile(path+"\\myImage.jpg",(errImg,imgData)=>{
+    if(errImg) throw errImg;
+	...
+	// 我把原来的tags信息全拿过来,只修改imageBuffer
+	let {image,raw} = ID3.read(path)
+	image.imageBuffer=imgData;
+    raw.APIC.imageBuffer=imgData
+	let tags={
+		title:music.replace(".mp3","").replace(".MP3",""),
+        artist:"Eason Chan",
+		image,
+		raw
+	}
+	...
+})
+
+```
+
+就这样吧图片内嵌到歌文件里面.
+
+<font color="red">有没有直接放图片链接呢?那么就不用搞得每首歌都那么大啊.抱歉我查文档时没发现node-id3有对这个修改.所以后续我会再找找有没其他的api可用,又或者自己写一个用来修改...但,有模板,谁又想再造轮子呢?</font>
 
